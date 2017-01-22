@@ -9,8 +9,9 @@ private:
 
 public:
   Game();
-  ~Game();
+  ~Game() = default;
   float getElapsedSeconds();
   int getLevel();
   void restartTime();
+  bool play(sf::RenderWindow& window, std::istream& mapf, std::istream& assf);
 };

@@ -1,4 +1,5 @@
 #include "game.hh"
+#include "readmap.hh"
 
 Game::Game(): level(0)
 {
@@ -16,11 +17,10 @@ int Game::getLevel()
 
 void Game::restartTime()
 {
-  this->clock.restart;
-  return ;
+  clock.restart();
 }
 
-void Game::play()
+bool Game::play(sf::RenderWindow& window, std::istream& mapf, std::istream& assf)
 {
   Map map = readmap(mapf, assf);
   
@@ -29,20 +29,30 @@ void Game::play()
   
   if (!u.loadFromFile("Tower.png"))
     {
-      return 0;
+      return false;
     }
   
   sf::Texture enemyTexture;
   
   if (!enemyTexture.loadFromFile("flame.png"))
     {
-      return 0;
+      return false;
     }
   
   sf::Sprite enemySprite(enemyTexture);
   enemySprite.setPosition(64, 64);
-  
-  for (unsigned int i = 0; i < 10; ++i)
+
+    sf::Font arial;
+
+    if (!arial.loadFromFile("./arial.ttf"))
+    {
+        return false;
+    }
+
+  std::string levelString(std::string("Level") + std::to_string(level));
+  sf::Text levelHint(levelString, arial);
+
+  for (unsigned int i = 0; i < 5 * (level + 2); ++i)
     {
       world.addEnemy(Enemy(enemySprite));
     }
@@ -57,7 +67,7 @@ void Game::play()
             {
             case sf::Event::Closed:
 	      window.close();
-	      break;
+	      return false;;
             case sf::Event::MouseButtonPressed:
 	      
 	      {
@@ -65,7 +75,9 @@ void Game::play()
 		sf::Vector2f v(window.mapPixelToCoords(sf::Vector2i(x, y)));
 		sf::Sprite sp(u);
 		sp.setPosition(v);
-		world.addTower(Tower(sp));
+        Tower t(sp);
+        t.setInterval(2. / (level + 1));
+		world.addTower(std::move(t));
 	      }
 	      
 	      break;
@@ -75,9 +87,17 @@ void Game::play()
         }
       
       window.clear();
-      world.update();
+      if (!world.update())
+        {
+            break;
+        }
       window.draw(world);
+
+    levelHint.setString(levelString + " " + std::to_string(world.enemiesCount()));
+
+      window.draw(levelHint);
       window.display();
     }  
   level++;
+  return true;
 }

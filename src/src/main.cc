@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#include "game.hh"
 #include "readmap.hh"
 #include "map.hh"
 #include "tile.hh"
@@ -23,7 +24,20 @@ int main()
     while (window.waitEvent(ev) && ev.type != sf::Event::KeyPressed)
         window.display();
 
-    std::ifstream mapf("Bush.map"), assf("Bush.ass");
+
+    Game game;
+
+    for (unsigned int i = 0; i < 5; ++i)
+    {
+        std::ifstream mapf("Bush.map"), assf("Bush.ass");
+
+        if (!game.play(window, mapf, assf))
+        {
+            return 0;
+        }
+    }
+
+#if 0
 
     Map map = readmap(mapf, assf);
 
@@ -84,4 +98,5 @@ int main()
         window.draw(world);
         window.display();
     }
+#endif
 }

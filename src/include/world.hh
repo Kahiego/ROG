@@ -36,7 +36,9 @@ public:
     bool addTower(Tower&& tower);
 
     void enqueue(const sf::Event& ev);
-    void update();
+    bool update();
+
+    std::size_t enemiesCount();
 
     void enemyUpdate(const sf::Time& t);
     void viewUpdate(sf::Keyboard::Key);

@@ -57,6 +57,11 @@ bool World::addTower(Tower&& tower)
     return true;
 }
 
+std::size_t World::enemiesCount()
+{
+    return _enemy.size();
+}
+
 void World::enqueue(const sf::Event& ev)
 {
     _events.push_front(ev);
@@ -70,14 +75,15 @@ void World::enemyUpdate(const sf::Time& t)
     }
 }
 
-void World::update()
+bool World::update()
 {
   sf::SoundBuffer buffer;
       sf::Sound sound;
-  if (buffer.loadFromFile("shot.wav"))
+  if (!buffer.loadFromFile("shot.wav"))
     {
-      sound.setBuffer(buffer);
+      return false;
     }
+  sound.setBuffer(buffer);
     while (!_events.empty())
     {
         sf::Event x { _events.back() };
@@ -94,7 +100,7 @@ void World::update()
     {
         if (_enemy.size() == 0)
         {
-            break;
+            return false;
         }
 
         using std::begin;
@@ -114,7 +120,7 @@ void World::update()
         x.focus(std::distance(_enemy.begin(),
                               std::min_element(begin(_enemy), end(_enemy), cmp)));
 
-        if (x.canShoot())
+        if (x.canShoot(_enemy[x.focused()].getPosition()))
         {
 	  sound.play();
             removeEnemy(x.focused());
@@ -122,12 +128,12 @@ void World::update()
         }
     }
 
-    if (frameClock.getElapsedTime() < sf::seconds(1))
+    if (frameClock.getElapsedTime() >= sf::seconds(0.5))
     {
-        return;
+        enemyUpdate(frameClock.restart());
     }
 
-    enemyUpdate(frameClock.restart());
+    return true;
 }
 
 void World::removeEnemy(std::size_t id)

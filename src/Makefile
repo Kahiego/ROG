@@ -4,7 +4,8 @@ SRC=		src/main.cc 	\
 		src/enemy.cc 	\
 		src/tower.cc    \
 		src/world.cc 	\
-		src/readmap.cc
+		src/readmap.cc 	\
+		src/game.cc
 
 OBJ=		$(SRC:.cc=.o)
 
