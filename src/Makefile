@@ -1,4 +1,4 @@
-NAME=		../release/ROG
+NAME=		ROG
 
 SRC=		src/main.cc 	\
 		src/enemy.cc 	\
