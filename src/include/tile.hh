@@ -1,6 +1,8 @@
 #ifndef TILE_HH_
 # define TILE_HH_
 
+#include <SFML/Graphics.hpp>
+
 struct Tile
 {
     Tile(bool c = false, bool o = false, const sf::Texture& t = {}): collision {c},

@@ -1,7 +1,9 @@
+#include <fstream>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#include "readmap.hh"
 #include "map.hh"
 #include "tile.hh"
 #include "world.hh"
@@ -9,31 +11,14 @@
 int main()
 {
     sf::RenderWindow window (sf::VideoMode(800, 600), "llama");
+    std::ifstream mapf("Bush.map"), assf("Bush.ass");
 
-    sf::Texture t;
-
-    if (!t.loadFromFile("a.png"))
-    {
-        return 0;
-    }
-
-    Tile tile (false, false, t);
-
-    Map map(128, 128);
-
-    for (std::size_t i { 0 }; i < 128; ++i)
-    {
-        for (std::size_t j { 0 }; j < 128; ++j)
-        {
-            map(i, j) = tile;
-        }
-    }
+    Map map = readmap(mapf, assf);
 
     World world(map);
-
     sf::Texture u;
 
-    if (!u.loadFromFile("b.png"))
+    if (!u.loadFromFile("Tower.png"))
     {
         return 0;
     }

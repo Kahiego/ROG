@@ -3,7 +3,8 @@ NAME=		../release/ROG
 SRC=		src/main.cc 	\
 		src/enemy.cc 	\
 		src/tower.cc    \
-		src/world.cc
+		src/world.cc 	\
+		src/readmap.cc
 
 OBJ=		$(SRC:.cc=.o)
 

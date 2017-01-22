@@ -11,6 +11,7 @@ class Map: public sf::Drawable
 public:
 
     Map(): _xs(0, 0) {}
+    Map(const Map&) = default;
     Map(std::size_t w, std::size_t h): _xs(w, h) {}
 
     const Tile& operator()(std::size_t i, std::size_t j) const

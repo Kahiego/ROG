@@ -2,6 +2,19 @@
 #define INCLUDED_ENEMY_HH
 
 #include <SFML/Graphics.hpp>
+#include "map.hh"
+
+class Life: public sf::Drawable
+{
+    
+
+private:
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        
+    }
+};
 
 class Enemy: public sf::Drawable
 {
@@ -22,6 +35,12 @@ public:
     Enemy(Enemy&&)                 = default;
 
     sf::Vector2f getPosition() const { return _sprite.getPosition(); }
+    void setPosition(const sf::Vector2f& px) { _sprite.setPosition(px); }
+
+    void move(const Map& map)
+    {
+        
+    }
 
 private:
 
