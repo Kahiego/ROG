@@ -50,7 +50,6 @@ Map readmap(std::istream& tiles, std::istream& theme)
     {
         for (std::size_t j {}; j < y; ++j)
         {
-            std::cout << i << " " << j << std::endl;
             unsigned int idx;
             int props;
 
