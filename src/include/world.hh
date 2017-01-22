@@ -22,6 +22,8 @@ class World: public sf::Drawable
     sf::Clock frameClock;
     unsigned int clockCnt;
 
+    std::size_t _credits { 5 };
+
 public:
 
     World();
