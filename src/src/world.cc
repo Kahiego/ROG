@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iterator>
 #include <SFML/Window.hpp>
 #include "world.hh"
 
@@ -77,13 +78,13 @@ void World::update()
         _events.pop_back();
     }
 
-    if (_enemy.size() == 0)
-    {
-        return;
-    }
-
     for (auto& x: _tower)
     {
+        if (_enemy.size() == 0)
+        {
+            break;
+        }
+
         using std::begin;
         using std::end;
 
@@ -98,7 +99,14 @@ void World::update()
             return hypot_a < hypot_b;
         };
 
-        x.focus(&*std::min_element(begin(_enemy), end(_enemy), cmp));
+        x.focus(std::distance(_enemy.begin(),
+                              std::min_element(begin(_enemy), end(_enemy), cmp)));
+
+        if (x.canShoot())
+        {
+            removeEnemy(x.focused());
+            x.resetShoot();
+        }
     }
 
     if (frameClock.getElapsedTime() < sf::seconds(1))
@@ -107,4 +115,12 @@ void World::update()
     }
 
     enemyUpdate(frameClock.restart());
+}
+
+void World::removeEnemy(std::size_t id)
+{
+    auto it = std::begin(_enemy);
+
+    std::advance(it, id);
+    _enemy.erase(it);
 }

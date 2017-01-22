@@ -39,6 +39,8 @@ public:
     void enemyUpdate(const sf::Time& t);
     void viewUpdate(sf::Keyboard::Key);
 
+    void removeEnemy(std::size_t id);
+
 private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const

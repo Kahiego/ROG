@@ -31,8 +31,8 @@ public:
 
     Enemy() = default;
 
-    Enemy(const Enemy&)            = delete;
-    Enemy& operator=(const Enemy&) = delete;
+    Enemy(const Enemy& other): _sprite (other._sprite), frame (other.frame) {}
+    Enemy& operator=(const Enemy&) = default;
 
     Enemy(Enemy&&)                 = default;
 
