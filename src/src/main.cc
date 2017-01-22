@@ -40,7 +40,7 @@ int main()
 
                 {
                     int x = ev.mouseButton.x, y = ev.mouseButton.y;
-                    sf::Vector2f v(window.mapPixelToCoords(sf::Vector2i(x, y)));
+                    sf::Vector2f v(window.mapPixelToCoords(sf::Vector2i(x, y - 64)));
                     sf::Sprite sp(u);
                     sp.setPosition(v);
                     world.addTower(Tower(sp));
