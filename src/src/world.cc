@@ -1,5 +1,6 @@
 #include <cmath>
 #include <iterator>
+#include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
 #include "world.hh"
 
@@ -34,6 +35,11 @@ bool World::addEnemy(Enemy&& enemy)
 
 bool World::addTower(Tower&& tower)
 {
+    if (_tower.size() > _credits)
+    {
+        return false;
+    }
+
     sf::Vector2f px { tower.getPosition() };
     sf::IntRect sx { tower.getSize() };
 
@@ -67,9 +73,9 @@ void World::enemyUpdate(const sf::Time& t)
 void World::update()
 {
   sf::SoundBuffer buffer;
-  if (buffer.loadFromFile("shot.mp3")
-    {
       sf::Sound sound;
+  if (buffer.loadFromFile("shot.wav"))
+    {
       sound.setBuffer(buffer);
     }
     while (!_events.empty())

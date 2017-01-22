@@ -9,7 +9,7 @@ SRC=		src/main.cc 	\
 OBJ=		$(SRC:.cc=.o)
 
 CXX= clang++
-CXXFLAGS= -Wall -Wextra -std=c++14 -Iinclude -lsfml-system -lsfml-graphics -lsfml-window -Wno-c++98-compat -g3
+CXXFLAGS= -Wall -Wextra -std=c++14 -Iinclude -lsfml-system -lsfml-graphics -lsfml-window -lsfml-audio -Wno-c++98-compat -g3
 
 all:		$(OBJ)
 			$(CXX) -o $(NAME) $(OBJ) $(CXXFLAGS)
