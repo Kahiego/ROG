@@ -13,6 +13,17 @@ int main()
     sf::RenderWindow window (sf::VideoMode(800, 600), "llama");
     std::ifstream mapf("Bush.map"), assf("Bush.ass");
 
+    sf::Texture title;
+    if (!title.loadFromFile("Title_screen.jpg"))
+        return 0;
+    sf::Sprite titleSprite;
+    titleSprite.setTexture(title);
+    window.draw(titleSprite);
+    
+    sf::Event ev;
+    while (window.waitEvent(ev) && ev.type != sf::Event::KeyPressed)
+        window.display();
+
     Map map = readmap(mapf, assf);
 
     World world(map);
