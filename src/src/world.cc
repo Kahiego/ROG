@@ -34,26 +34,18 @@ bool World::addEnemy(Enemy&& enemy)
 bool World::addTower(Tower&& tower)
 {
     sf::Vector2f px { tower.getPosition() };
+    sf::IntRect sx { tower.getSize() };
 
-    if (!_map.constructible(px))
+    std::size_t x = px.x / 64 , y = px.y / 64;
+
+    if (!_map.constructible(x, y))
     {
         return false;
     }
 
-    std::size_t x = px.x / 64, y = px.y / 64;
+    _map(x, y).occupied = true;
 
-    for (const auto& i: _tower)
-    {
-        std::size_t x1 = i.getPosition().x / 64,
-                    y1 = i.getPosition().y / 64;
-
-        if (x == x1 && y == y1)
-        {
-            return false;
-        }
-    }
-
-    tower.setPosition(sf::Vector2f(x * 64, y * 64));
+    tower.setPosition(sf::Vector2f(x * 64, y * 64 - sx.height + 64));
     _tower.emplace_back(std::move(tower));
     return true;
 }
@@ -61,6 +53,14 @@ bool World::addTower(Tower&& tower)
 void World::enqueue(const sf::Event& ev)
 {
     _events.push_front(ev);
+}
+
+void World::enemyUpdate(const sf::Time& t)
+{
+    for (auto& x: _enemy)
+    {
+        x.move(_map, t.asSeconds());
+    }
 }
 
 void World::update()
@@ -100,4 +100,11 @@ void World::update()
 
         x.focus(&*std::min_element(begin(_enemy), end(_enemy), cmp));
     }
+
+    if (frameClock.getElapsedTime() < sf::seconds(1))
+    {
+        return;
+    }
+
+    enemyUpdate(frameClock.restart());
 }

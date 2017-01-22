@@ -19,6 +19,9 @@ class World: public sf::Drawable
     sf::View user_view;
     std::deque<sf::Event> _events;
 
+    sf::Clock frameClock;
+    unsigned int clockCnt;
+
 public:
 
     World();
@@ -33,6 +36,7 @@ public:
     void enqueue(const sf::Event& ev);
     void update();
 
+    void enemyUpdate(const sf::Time& t);
     void viewUpdate(sf::Keyboard::Key);
 
 private:

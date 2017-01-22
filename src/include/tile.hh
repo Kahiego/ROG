@@ -5,10 +5,10 @@
 
 struct Tile
 {
-    Tile(bool c = false, bool o = false, const sf::Texture& t = {}): collision {c},
+    Tile(int ty = 0, bool o = false, const sf::Texture& t = {}): type {ty},
                                                 occupied {o},
                                                 texture {t} {}
-    bool collision;
+    int type;
     bool occupied;
     sf::Texture texture;
 };

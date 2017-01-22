@@ -11,7 +11,6 @@
 int main()
 {
     sf::RenderWindow window (sf::VideoMode(800, 600), "llama");
-    std::ifstream mapf("Bush.map"), assf("Bush.ass");
 
     sf::Texture title;
     if (!title.loadFromFile("Title_screen.jpg"))
@@ -19,10 +18,12 @@ int main()
     sf::Sprite titleSprite;
     titleSprite.setTexture(title);
     window.draw(titleSprite);
-    
+
     sf::Event ev;
     while (window.waitEvent(ev) && ev.type != sf::Event::KeyPressed)
         window.display();
+
+    std::ifstream mapf("Bush.map"), assf("Bush.ass");
 
     Map map = readmap(mapf, assf);
 
@@ -32,6 +33,21 @@ int main()
     if (!u.loadFromFile("Tower.png"))
     {
         return 0;
+    }
+
+    sf::Texture enemyTexture;
+
+    if (!enemyTexture.loadFromFile("flame.png"))
+    {
+        return 0;
+    }
+
+    sf::Sprite enemySprite(enemyTexture);
+    enemySprite.setPosition(64, 64);
+
+    for (unsigned int i = 0; i < 10; ++i)
+    {
+        world.addEnemy(Enemy(enemySprite));
     }
 
     while (window.isOpen())
@@ -51,7 +67,7 @@ int main()
 
                 {
                     int x = ev.mouseButton.x, y = ev.mouseButton.y;
-                    sf::Vector2f v(window.mapPixelToCoords(sf::Vector2i(x, y - 64)));
+                    sf::Vector2f v(window.mapPixelToCoords(sf::Vector2i(x, y)));
                     sf::Sprite sp(u);
                     sp.setPosition(v);
                     world.addTower(Tower(sp));

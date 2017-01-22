@@ -25,6 +25,8 @@ public:
     sf::Vector2f getPosition() const { return _sprite.getPosition(); }
     void setPosition(const sf::Vector2f& px) { _sprite.setPosition(px); }
 
+    sf::IntRect getSize() const { return _sprite.getTextureRect(); }
+
     void focus(Enemy* focus)
     {
         _focus = focus;

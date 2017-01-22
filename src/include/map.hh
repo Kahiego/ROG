@@ -24,16 +24,19 @@ public:
         return _xs(i, j);
     }
 
-    bool constructible(const sf::Vector2f& px)
+    bool constructible(std::size_t i, std::size_t j)
     {
-        if (px.x < 0 || px.y < 0)
+        if (i >= _xs.width() || j >= _xs.height())
         {
             return false;
         }
 
-        std::size_t x = px.x / 64, y = px.y / 64;
+        if (_xs(i, j).type != 1)
+        {
+            return false;
+        }
 
-        if (x > _xs.width() || y > _xs.height())
+        if (_xs(i, j).occupied)
         {
             return false;
         }
@@ -45,13 +48,13 @@ private:
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        for (std::size_t i (0); i < _xs.height(); ++i)
+        for (std::size_t i (0); i < _xs.width(); ++i)
         {
-            for (std::size_t j (0); j < _xs.width(); ++j)
+            for (std::size_t j (0); j < _xs.height(); ++j)
             {
                 const Tile& t { _xs(i, j) };
                 sf::Sprite sp(t.texture);
-                sp.setPosition(j * 64, i * 64);
+                sp.setPosition(i * 64, j * 64);
                 target.draw(sp, states);
             }
         }

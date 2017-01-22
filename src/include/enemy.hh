@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "map.hh"
 
+/*
 class Life: public sf::Drawable
 {
     
@@ -15,16 +16,17 @@ private:
         
     }
 };
+*/
 
 class Enemy: public sf::Drawable
 {
     sf::Sprite _sprite;
+    unsigned int frame {0};
 
 public:
 
     Enemy(const sf::Sprite& sprite): _sprite(sprite)
     {
-        
     }
 
     Enemy() = default;
@@ -37,8 +39,86 @@ public:
     sf::Vector2f getPosition() const { return _sprite.getPosition(); }
     void setPosition(const sf::Vector2f& px) { _sprite.setPosition(px); }
 
-    void move(const Map& map)
+    void move(const Map& map, float percent)
     {
+        sf::Vector2f px[] =
+        {
+            sf::Vector2f(1, 0),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            
+            sf::Vector2f(0, -1),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(0, -1),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(0, 1),
+            
+            sf::Vector2f(0, 1),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(-1, 0),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(0, 1),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0),
+            sf::Vector2f(1, 0)
+        };
+
+        _sprite.move(px[frame++] * 64.f);
+
         
     }
 
