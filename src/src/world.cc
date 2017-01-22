@@ -66,6 +66,12 @@ void World::enemyUpdate(const sf::Time& t)
 
 void World::update()
 {
+  sf::SoundBuffer buffer;
+  if (buffer.loadFromFile("shot.mp3")
+    {
+      sf::Sound sound;
+      sound.setBuffer(buffer);
+    }
     while (!_events.empty())
     {
         sf::Event x { _events.back() };
@@ -104,6 +110,7 @@ void World::update()
 
         if (x.canShoot())
         {
+	  sound.play();
             removeEnemy(x.focused());
             x.resetShoot();
         }
