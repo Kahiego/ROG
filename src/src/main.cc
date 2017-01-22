@@ -33,7 +33,7 @@ int main()
 
     sf::Texture u;
 
-    if (!u.loadFromFile("b.png"))
+    if (!u.loadFromFile("Tower.png"))
     {
         return 0;
     }
