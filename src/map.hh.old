@@ -1,0 +1,66 @@
+#ifndef INCLUDED_MAP_H
+#define INCLUDED_MAP_H
+
+#include "matrix.hh"
+#include "tile.hh"
+
+class Map: public sf::Drawable
+{
+    sf::Texture     _tileset;
+    sf::VertexArray _vertex;
+    TileProps       _props;
+
+public:
+
+    Map(): _vertex(sf::Quads)
+    {
+    }
+
+    Map(const Map&): _vertex(sf::Quads)
+    {
+    }
+
+    Map(std::size_t w, std::size_t h): _vertex(sf::Quads, 4 * w * h)
+    {
+    }
+
+    const Tile& operator()(std::size_t i, std::size_t j) const
+    {
+        return _xs(i, j);
+    }
+
+    Tile& operator()(std::size_t i, std::size_t j)
+    {
+        return _xs(i, j);
+    }
+
+    bool constructible(std::size_t i, std::size_t j)
+    {
+        if (i >= _xs.width() || j >= _xs.height())
+        {
+            return false;
+        }
+
+        if (_xs(i, j).type != 1)
+        {
+            return false;
+        }
+
+        if (_xs(i, j).occupied)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+private:
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.texture = &_tileset;
+        target.draw(_vertex, states);
+    }
+};
+
+#endif
